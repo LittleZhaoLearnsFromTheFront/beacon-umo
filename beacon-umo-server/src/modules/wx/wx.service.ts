@@ -24,28 +24,6 @@ export class WXService {
         return echostr
     }
 
-    async getAccessToken() {
-        type ReturnType = {
-            expires_in: number,
-            access_token: string
-        }
-
-        const cacheAccessToken = await this.cacheService.get<string>(WX.Account_Assess_Token)
-        if (cacheAccessToken) return cacheAccessToken
-
-        const { data: { access_token, expires_in } } = await axios.get<ReturnType>('https://api.weixin.qq.com/cgi-bin/token', {
-            params: {
-                grant_type: 'client_credential',
-                appid: this.configService.get<string>(ENV.WX_ACCOUNT_APPID),
-                secret: this.configService.get<string>(ENV.WX_ACCOUNT_APPSECRET)
-            }
-        })
-
-        if (cacheAccessToken === access_token) return cacheAccessToken
-        await this.cacheService.set(WX.Account_Assess_Token, access_token, expires_in)
-        return access_token
-    }
-
     async receiveMessage(message: Message) {
         if (isFollowEventMessage(message.xml)) {
             const { Event, FromUserName } = message.xml
@@ -61,5 +39,49 @@ export class WXService {
             }
 
         }
+    }
+
+    async getAccountAccessToken() {
+        type ReturnType = {
+            expires_in: number,
+            access_token: string
+        }
+
+        const cacheAccessToken = await this.cacheService.get<string>(WX.Account_Access_Token)
+        if (cacheAccessToken) return cacheAccessToken
+
+        const { data: { access_token, expires_in } } = await axios.get<ReturnType>('https://api.weixin.qq.com/cgi-bin/token', {
+            params: {
+                grant_type: 'client_credential',
+                appid: this.configService.get<string>(ENV.WX_ACCOUNT_APPID),
+                secret: this.configService.get<string>(ENV.WX_ACCOUNT_APPSECRET)
+            }
+        })
+
+        if (cacheAccessToken === access_token) return cacheAccessToken
+        await this.cacheService.set(WX.Account_Access_Token, access_token, expires_in)
+        return access_token
+    }
+
+    async getAppletAccessToken() {
+        type ReturnType = {
+            expires_in: number,
+            access_token: string
+        }
+
+        const cacheAccessToken = await this.cacheService.get<string>(WX.Applet_Access_Token)
+        if (cacheAccessToken) return cacheAccessToken
+
+        const { data: { access_token, expires_in } } = await axios.get<ReturnType>('https://api.weixin.qq.com/cgi-bin/token', {
+            params: {
+                grant_type: 'client_credential',
+                appid: this.configService.get<string>(ENV.WX_APPLET_APPID),
+                secret: this.configService.get<string>(ENV.WX_APPLET_APPSECRET)
+            }
+        })
+
+        if (cacheAccessToken === access_token) return cacheAccessToken
+        await this.cacheService.set(WX.Applet_Access_Token, access_token, expires_in)
+        return access_token
     }
 }

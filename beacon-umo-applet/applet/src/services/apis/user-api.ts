@@ -1,4 +1,3 @@
-// @ts-nocheck
 // tslint:disable
 /**
  * beacon
@@ -13,7 +12,7 @@
  */
 
 
-import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
+import globalAxios, { AxiosInstance } from 'axios';
 import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -22,6 +21,14 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 import { InlineObject } from '../models';
 // @ts-ignore
 import { InlineResponse200 } from '../models';
+type CustomPromise<T>={
+    code:number,
+    success:boolean,
+    msg:string,
+    data:T,
+    time:string,
+    error?:string[]
+}
 /**
  * UserApi - axios parameter creator
  * @export
@@ -102,7 +109,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiLoginPost(inlineObject?: InlineObject, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200>> {
+        async apiLoginPost(inlineObject?: InlineObject, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => CustomPromise<InlineResponse200>> {
             const localVarAxiosArgs = await UserApiAxiosParamCreator(configuration).apiLoginPost(inlineObject, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -125,7 +132,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiLoginPost(inlineObject?: InlineObject, options?: any): AxiosPromise<InlineResponse200> {
+        apiLoginPost(inlineObject?: InlineObject, options?: any): CustomPromise<InlineResponse200> {
             return UserApiFp(configuration).apiLoginPost(inlineObject, options).then((request) => request(axios, basePath));
         },
     };

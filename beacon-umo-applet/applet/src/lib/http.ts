@@ -34,7 +34,7 @@ myAxios.interceptors.request.use(
 myAxios.interceptors.response.use(
     response => {
         Taro.hideLoading();
-        return response;
+        return response.data;
     }
 )
 

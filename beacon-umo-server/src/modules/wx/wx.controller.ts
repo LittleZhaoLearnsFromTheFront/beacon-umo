@@ -17,8 +17,8 @@ export class WXController {
         return await this.wxService.receiveMessage(body);
     }
 
-    getAccessToken() {
-        return this.wxService.getAccessToken();
+    getAccountAccessToken() {
+        return this.wxService.getAccountAccessToken();
     }
 
 }

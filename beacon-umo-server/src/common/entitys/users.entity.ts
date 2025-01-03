@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Exclusion, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Templates } from "./templates.entity";
 
 @Entity()
 export class Users {
@@ -11,7 +12,7 @@ export class Users {
     @Column({ nullable: true })
     username?: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, select: false })
     password?: string;
 
     @Column({ nullable: true })
@@ -25,4 +26,7 @@ export class Users {
 
     @UpdateDateColumn()
     update_time: Date;
+
+    @ManyToOne(() => Templates, template => template.users)
+    template: Templates
 }

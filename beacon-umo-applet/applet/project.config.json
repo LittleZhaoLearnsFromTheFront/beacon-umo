@@ -4,7 +4,7 @@
   "description": "小程序",
   "appid": "wxbb57ad0f94486da3",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
     "enhance": false,
     "compileHotReLoad": false,
