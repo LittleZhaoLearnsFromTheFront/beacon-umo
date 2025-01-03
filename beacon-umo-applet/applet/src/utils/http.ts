@@ -1,0 +1,1 @@
+export const isGet = (method: string | undefined) => /GET/i.test(method ?? 'get');
