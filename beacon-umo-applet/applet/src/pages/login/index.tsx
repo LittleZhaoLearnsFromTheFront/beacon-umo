@@ -6,10 +6,14 @@ const index = () => {
 
     useLoad(async () => {
         const { code } = await Taro.login()
-        const { data: { token } } = await userService.apiLoginPost({ code })
+        const { data: { token, needComplete } } = await userService.apiLoginPost({ code })
 
         Taro.setStorageSync(TOKEN_HEADER_NAME, token)
-        Taro.navigateTo({ url: '/pages/home/index' })
+        if (needComplete) {
+            const { userInfo: { nickName, avatarUrl } } = await Taro.getUserInfo()
+            await userService.apiUserCompletePost({ username: nickName, avatar: avatarUrl })
+        }
+        Taro.navigateTo({ url: '/pages/validate-template/index' })
     })
 
     return <></>

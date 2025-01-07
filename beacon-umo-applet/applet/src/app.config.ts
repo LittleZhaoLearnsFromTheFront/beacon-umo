@@ -1,7 +1,8 @@
 export default defineAppConfig({
   pages: [
     'pages/login/index',
-    'pages/home/index'
+    'pages/home/index',
+    'pages/validate-template/index'
   ],
   window: {
     backgroundTextStyle: 'light',

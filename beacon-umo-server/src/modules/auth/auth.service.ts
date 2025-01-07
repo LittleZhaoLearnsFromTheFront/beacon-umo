@@ -5,6 +5,7 @@ import axios from "axios";
 import { ENV } from "../config/config.enum";
 import { UserRepository } from "../user/user.repository";
 import { JwtService } from "@nestjs/jwt";
+import Result from "@/common/result/Result";
 
 @Injectable()
 export class AuthService {
@@ -47,10 +48,10 @@ export class AuthService {
         }
 
         const payload = { sub: user.id, openid: user.openid }
-        return {
-            token: this.jwtService.sign(payload)
-        }
-
+        return Result.Success({
+            token: this.jwtService.sign(payload),
+            needComplete: !user?.username
+        })
     }
 
     async validateUser(id: string, openid: string) {

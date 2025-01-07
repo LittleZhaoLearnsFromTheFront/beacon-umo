@@ -7,7 +7,7 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor() {
         super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('x-jwt'),
+            jwtFromRequest: ExtractJwt.fromHeader('x-jwt'),
             ignoreExpiration: false,
             secretOrKey,
         })

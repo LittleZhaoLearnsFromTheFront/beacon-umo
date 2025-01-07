@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { WXService } from "./wx.service";
 import { CheckSignatureQuery, Message } from "./wx.types";
+import { Public } from "@/common/metadata/public.metadata";
 
+@Public()
 @Controller('wx')
 export class WXController {
 

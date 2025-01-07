@@ -20,7 +20,6 @@ export class BadRequestExceptionFilter implements ExceptionFilter {
         res.status(HttpStatus.BAD_REQUEST).send(Result.BadRequest(exception.message));
     }
 }
-
 @Catch(UnauthorizedException)
 export class UnauthorizedExceptionFilter implements ExceptionFilter {
     catch(exception: UnauthorizedException, host: ArgumentsHost) {
@@ -33,6 +32,6 @@ export class UnauthorizedExceptionFilter implements ExceptionFilter {
 export class GlobalExceptionFilter implements ExceptionFilter {
     catch(exception: any, host: ArgumentsHost) {
         const res = host.switchToHttp().getResponse<Response>();
-        res.send(Result.Error());
+        res.status(HttpStatus.ERROR).send(Result.Error());
     }
 }

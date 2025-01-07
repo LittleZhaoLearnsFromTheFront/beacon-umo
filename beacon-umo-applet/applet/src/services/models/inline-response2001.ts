@@ -17,21 +17,15 @@
 /**
  * 
  * @export
- * @interface InlineResponse200
+ * @interface InlineResponse2001
  */
-export interface InlineResponse200 {
-    /**
-     * 
-     * @type {string}
-     * @memberof InlineResponse200
-     */
-    token: string;
+export interface InlineResponse2001 {
     /**
      * 
      * @type {boolean}
-     * @memberof InlineResponse200
+     * @memberof InlineResponse2001
      */
-    needComplete: boolean;
+    hasTemplate: boolean;
 }
 
 

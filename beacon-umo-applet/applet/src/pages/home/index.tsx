@@ -1,4 +1,7 @@
+import { View } from "@tarojs/components";
+
 const index = () => {
-    return <div>index</div>;
+
+    return <View>{123}</View>;
 };
 export default index;

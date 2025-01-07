@@ -17,21 +17,27 @@
 /**
  * 
  * @export
- * @interface InlineResponse200
+ * @interface InlineObject1
  */
-export interface InlineResponse200 {
+export interface InlineObject1 {
     /**
      * 
      * @type {string}
-     * @memberof InlineResponse200
+     * @memberof InlineObject1
      */
-    token: string;
+    username: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof InlineResponse200
+     * @type {string}
+     * @memberof InlineObject1
      */
-    needComplete: boolean;
+    avatar?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineObject1
+     */
+    email?: string;
 }
 
 

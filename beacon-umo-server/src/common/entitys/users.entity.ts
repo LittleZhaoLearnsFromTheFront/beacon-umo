@@ -12,9 +12,6 @@ export class Users {
     @Column({ nullable: true })
     username?: string;
 
-    @Column({ nullable: true, select: false })
-    password?: string;
-
     @Column({ nullable: true })
     email?: string;
 
@@ -29,4 +26,7 @@ export class Users {
 
     @ManyToOne(() => Templates, template => template.users)
     template: Templates
+
+    @Column({ type: 'enum', enum: ['applet', 'client'], default: 'applet' })
+    origin: 'applet' | 'client';
 }

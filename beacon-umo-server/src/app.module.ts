@@ -6,13 +6,14 @@ import { CacheModule } from './modules/cache/cache.module';
 import { XMLMiddleware } from './common/middlewares/xml.middleware';
 import { WXController } from './modules/wx/wx.controller';
 import { AuthModule } from './modules/auth/auth.module';
-import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { ValidationException } from './common/exceptions';
 import { stringifyError } from './utils';
-import { BadRequestExceptionFilter, GlobalExceptionFilter, ValidationExceptionFilter } from './common/filters/global.filter';
+import { BadRequestExceptionFilter, GlobalExceptionFilter, UnauthorizedExceptionFilter, ValidationExceptionFilter } from './common/filters/global.filter';
 import { UserModule } from './modules/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { secretOrKey } from './common/constant';
+import { JwtGuard } from './common/guard/jwt.guard';
 
 @Module({
   imports: [
@@ -42,6 +43,10 @@ import { secretOrKey } from './common/constant';
     },
     {
       provide: APP_FILTER,
+      useClass: UnauthorizedExceptionFilter
+    },
+    {
+      provide: APP_FILTER,
       useClass: ValidationExceptionFilter
     },
     {
@@ -56,6 +61,10 @@ import { secretOrKey } from './common/constant';
           return new ValidationException(stringifyError(messages));
         },
       })
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtGuard
     }
   ],
 })

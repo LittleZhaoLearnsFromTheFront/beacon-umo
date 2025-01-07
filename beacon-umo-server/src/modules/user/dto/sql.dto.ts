@@ -7,3 +7,9 @@ export type FindUser = {
 }
 
 export type CreateUser = Partial<Omit<Users, 'id'>>
+
+export type EditUser = {
+    username: string,
+    email?: string,
+    avatar?: string,
+}
