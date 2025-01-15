@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export type UserType = {
-    id: string,
+    id: number,
     openid: string
 }
 

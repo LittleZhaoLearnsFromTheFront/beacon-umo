@@ -1,7 +1,7 @@
 import { Users } from "@/common/entitys/users.entity";
 
 export type FindUser = {
-    id?: string;
+    id?: number;
     openid?: string
     username?: string;
 }

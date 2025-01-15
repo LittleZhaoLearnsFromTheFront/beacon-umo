@@ -13,5 +13,6 @@
 
 
 
+export * from './apis/home-api';
 export * from './apis/user-api';
 

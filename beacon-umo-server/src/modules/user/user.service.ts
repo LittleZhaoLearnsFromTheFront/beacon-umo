@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { CompleteUser } from "./dto/user.dto";
 import { UserType } from "@/common/decorators/user.decorator";
 import { UserRepository } from "./user.repository";
@@ -23,8 +23,9 @@ export class UserService {
 
     async validateTemplate(jwtuser: UserType) {
         const { openid, id } = jwtuser
-        const user = await this.userRepository.findUser({ openid, id })
+        const user = await this.userRepository.findUserAndTemplate({ openid, id })
         if (!user) throw new BadRequestException("用户不存在")
+
         return Result.Success({
             hasTemplate: !!user.template
         })

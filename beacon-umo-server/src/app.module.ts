@@ -14,15 +14,17 @@ import { UserModule } from './modules/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { secretOrKey } from './common/constant';
 import { JwtGuard } from './common/guard/jwt.guard';
-
+import { HomeModule } from './modules/home/home.module';
 @Module({
   imports: [
+    AuthModule,
+    UserModule,
+    HomeModule,
+
     ConfigModule,
     DBModule,
     WXModule,
     CacheModule,
-    AuthModule,
-    UserModule,
     JwtModule.register({
       global: true,
       secret: secretOrKey,

@@ -8,14 +8,14 @@ export default class Result<T> {
   msg: string = 'success';
   data: T = null;
   time: string | null = null;
-  error?: string[] = []
+  error?: string
 
   constructor(
     code: number = HttpStatus.SUCCESS,
     success: boolean = true,
     msg: string = 'success',
     data: T = null,
-    error?: string[]
+    error?: string
   ) {
     this.code = code;
     this.success = success;
@@ -27,7 +27,7 @@ export default class Result<T> {
   static Success<K = null>(data: K = null) {
     return new Result<K>(HttpStatus.SUCCESS, true, '', data);
   }
-  static Error(msg: string = 'error', code: number = HttpStatus.ERROR, error?: string[]) {
+  static Error(msg: string = 'error', code: number = HttpStatus.ERROR, error?: string) {
     return new Result(code, false, msg, null, error);
   }
 
@@ -47,7 +47,7 @@ export default class Result<T> {
     return Result.Error(msg, HttpStatus.FORBIDDEN);
   }
 
-  static Validation(msg: string = '参数校验不通过！', error?: string[]) {
+  static Validation(msg: string = '参数校验不通过！', error?: string) {
     return Result.Error(msg, HttpStatus.Validation, error);
   }
 

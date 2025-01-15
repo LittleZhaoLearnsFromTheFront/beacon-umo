@@ -54,7 +54,7 @@ export class AuthService {
         })
     }
 
-    async validateUser(id: string, openid: string) {
+    async validateUser(id: number, openid: string) {
         return await this.userRepository.findUser({ id, openid })
     }
 }

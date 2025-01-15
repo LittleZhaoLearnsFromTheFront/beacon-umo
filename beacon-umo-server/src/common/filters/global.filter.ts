@@ -9,7 +9,7 @@ import { HttpStatus } from "../constant/HttpStatus";
 export class ValidationExceptionFilter implements ExceptionFilter {
     catch(exception: ValidationException, host: ArgumentsHost) {
         const res = host.switchToHttp().getResponse<Response>();
-        res.status(HttpStatus.Validation).send(Result.Validation(undefined, parseError(exception.message)));
+        res.status(HttpStatus.Validation).send(Result.Validation(undefined, parseError(exception.message)?.[0]));
     }
 }
 
@@ -31,6 +31,7 @@ export class UnauthorizedExceptionFilter implements ExceptionFilter {
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
     catch(exception: any, host: ArgumentsHost) {
+        console.log(exception);
         const res = host.switchToHttp().getResponse<Response>();
         res.status(HttpStatus.ERROR).send(Result.Error());
     }

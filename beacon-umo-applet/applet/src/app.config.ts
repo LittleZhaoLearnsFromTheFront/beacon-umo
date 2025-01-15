@@ -1,8 +1,16 @@
 export default defineAppConfig({
   pages: [
-    'pages/login/index',
     'pages/home/index',
+    'pages/login/index',
     'pages/validate-template/index'
+  ],
+  subPackages: [
+    {
+      root: "recipe-sub",
+      pages: [
+        'home/index'
+      ]
+    }
   ],
   window: {
     backgroundTextStyle: 'light',

@@ -26,4 +26,12 @@ export class UserRepository {
     async editUser(id: number, user: EditUser) {
         await this.usersRepository.update(id, user)
     }
+
+    async findUserAndTemplate(where: FindUser): Promise<Users | null> {
+        const user = await this.usersRepository.findOne({
+            relations: ['template'],
+            where: sqlWhere(where)
+        })
+        return user || null
+    }
 }

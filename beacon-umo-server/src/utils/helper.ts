@@ -1,3 +1,4 @@
+import { Config } from "@/config";
 import { IAnyObject } from "@/types";
 import * as dayjs from "dayjs";
 
@@ -19,4 +20,9 @@ export const stringifyError = (error: string[]) => {
 
 export const parseError = (error: string) => {
     return error.split('^')
+}
+
+export const formatStaticUrl = (url: string) => {
+    if (!url) return ''
+    return "http://localhost:3000" + Config.prefix + Config.upload.file_prefix + url
 }

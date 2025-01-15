@@ -15,6 +15,19 @@ export class Templates {
     @UpdateDateColumn()
     update_time: Date;
 
+    @Column({ type: 'simple-json', nullable: true })
+    config: {
+        swiper?: {
+            title: string;
+            image: string
+        }[],
+        gridBar?: {
+            title: string;
+            image: string;
+            link: string;
+        }[]
+    }
+
     @OneToMany(() => Users, user => user.template)
-    users: Users[]
+    users: Users[];
 }
