@@ -1,4 +1,5 @@
 import { secretOrKey } from "@/common/constant";
+import { UserOrigin } from "@/common/entitys/users.entity";
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
@@ -13,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         })
     }
 
-    async validate(payload: { sub: string, openid: string }) {
-        return { id: payload.sub, openid: payload.openid };
+    async validate(payload: { sub: string, openid: string, origin: UserOrigin }) {
+        return { id: payload.sub, openid: payload.openid, origin: payload.origin };
     }
 }

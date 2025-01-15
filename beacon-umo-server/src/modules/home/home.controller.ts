@@ -12,6 +12,6 @@ export class HomeController {
     @Get()
     async getHomeConfig(@User() user: UserType) {
         const data = await this.homeService.getHomeConfig(user);
-        return Result.Success(data)
+        return data
     }
 }

@@ -1,8 +1,10 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { UserOrigin } from '../entitys/users.entity';
 
 export type UserType = {
     id: number,
-    openid: string
+    openid: string,
+    origin: UserOrigin
 }
 
 export const User = createParamDecorator((data: unknown, ctx: ExecutionContext) => {

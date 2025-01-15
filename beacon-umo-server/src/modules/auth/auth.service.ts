@@ -6,6 +6,7 @@ import { ENV } from "../config/config.enum";
 import { UserRepository } from "../user/user.repository";
 import { JwtService } from "@nestjs/jwt";
 import Result from "@/common/result/Result";
+import { UserOrigin } from "@/common/entitys/users.entity";
 
 @Injectable()
 export class AuthService {
@@ -47,14 +48,14 @@ export class AuthService {
             user = await this.userRepository.createUser(params)
         }
 
-        const payload = { sub: user.id, openid: user.openid }
+        const payload = { sub: user.id, openid: user.openid, origin: UserOrigin.Applet }
         return Result.Success({
             token: this.jwtService.sign(payload),
             needComplete: !user?.username
         })
     }
 
-    async validateUser(id: number, openid: string) {
-        return await this.userRepository.findUser({ id, openid })
+    async validateUser(id: number, openid: string, origin: UserOrigin) {
+        return await this.userRepository.findUser({ id, openid, origin })
     }
 }

@@ -1,9 +1,10 @@
-import { Users } from "@/common/entitys/users.entity";
+import { UserOrigin, Users } from "@/common/entitys/users.entity";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserType } from "@/common/decorators/user.decorator";
 import { Repository } from "typeorm";
 import { formatStaticUrl } from "@/utils";
+import Result from "@/common/result/Result";
 
 @Injectable()
 export class HomeService {
@@ -16,13 +17,13 @@ export class HomeService {
             where: {
                 id: jwtuser.id,
                 openid: jwtuser.openid,
-                origin: "applet"
+                origin: jwtuser.origin
             },
         });
         if (!userInfo.template) throw new BadRequestException("模版不存在");
         const { config } = userInfo.template;
 
-        return {
+        return Result.Success({
             swiper: config.swiper?.map(t => ({
                 ...t,
                 image: formatStaticUrl(t.image)
@@ -31,6 +32,6 @@ export class HomeService {
                 ...t,
                 image: formatStaticUrl(t.image)
             }))
-        }
+        })
     }
 }

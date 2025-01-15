@@ -1,4 +1,4 @@
-import { TOKEN_HEADER_NAME } from "@/constants";
+import { TOKEN_HEADER_NAME, validateTemplatePath } from "@/constants";
 import { userService } from "@/servicesWrap";
 import Taro, { useLoad } from "@tarojs/taro";
 
@@ -13,7 +13,7 @@ const index = () => {
             const { userInfo: { nickName, avatarUrl } } = await Taro.getUserInfo()
             await userService.apiUserCompletePost({ username: nickName, avatar: avatarUrl })
         }
-        Taro.navigateTo({ url: '/pages/validate-template/index' })
+        Taro.navigateTo({ url: validateTemplatePath })
     })
 
     return <></>

@@ -1,6 +1,11 @@
 import { Column, CreateDateColumn, Entity, Exclusion, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Templates } from "./templates.entity";
 
+export enum UserOrigin {
+    Applet = 'applet',
+    Client = 'client'
+}
+
 @Entity()
 export class Users {
     @PrimaryGeneratedColumn()
@@ -27,6 +32,6 @@ export class Users {
     @ManyToOne(() => Templates, template => template.users)
     template: Templates
 
-    @Column({ type: 'enum', enum: ['applet', 'client'], default: 'applet' })
-    origin: 'applet' | 'client';
+    @Column({ type: 'enum', enum: [UserOrigin.Applet, UserOrigin.Client], default: UserOrigin.Applet })
+    origin: UserOrigin;
 }
