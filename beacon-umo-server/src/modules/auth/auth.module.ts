@@ -9,7 +9,7 @@ import { WXModule } from "../wx/wx.module";
 @Module({
     imports: [
         UserModule,
-        PassportModule.register({ defaultStrategy: 'local' }),
+        PassportModule.register({ defaultStrategy: 'jwt' }),
         WXModule
     ],
     providers: [AuthService, JwtStrategy],

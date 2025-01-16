@@ -4,7 +4,8 @@ export type FindUser = {
     id?: number;
     openid?: string
     username?: string;
-    origin?: UserOrigin;
+    email?: string;
+    origin: UserOrigin;
 }
 
 export type CreateUser = Partial<Omit<Users, 'id'>>

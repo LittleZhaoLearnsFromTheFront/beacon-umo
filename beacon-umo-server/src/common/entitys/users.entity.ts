@@ -11,13 +11,16 @@ export class Users {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ unique: true })
+    @Column({ unique: true, nullable: true })
     openid: string;
 
     @Column({ nullable: true })
     username?: string;
 
     @Column({ nullable: true })
+    password?: string;
+
+    @Column({ unique: true, nullable: true })
     email?: string;
 
     @Column({ nullable: true })

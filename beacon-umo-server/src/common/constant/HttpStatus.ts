@@ -23,11 +23,6 @@ export enum HttpStatus {
   NOT_MODIFIED = 304,
 
   /**
-   * 请求失败
-   */
-  BAD_REQUEST = 400,
-
-  /**
    * 未授权
    */
   UNAUTHORIZED = 401,
@@ -65,7 +60,7 @@ export enum HttpStatus {
   /**
    * 系统内部错误
    */
-  ERROR = 500,
+  BAD_REQUEST = 500,
 
   /**
    * 接口未实现

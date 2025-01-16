@@ -27,7 +27,7 @@ export default class Result<T> {
   static Success<K = null>(data: K = null) {
     return new Result<K>(HttpStatus.SUCCESS, true, '', data);
   }
-  static Error(msg: string = 'error', code: number = HttpStatus.ERROR, error?: string) {
+  static Error(msg: string = 'error', code: number = HttpStatus.BAD_REQUEST, error?: string) {
     return new Result(code, false, msg, null, error);
   }
 

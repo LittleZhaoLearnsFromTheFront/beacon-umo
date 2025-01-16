@@ -13,5 +13,6 @@ import { WXRepository } from "./wx.repository";
         WXController,
     ],
     providers: [WXService, WXRepository],
+    exports: [WXService]
 })
 export class WXModule { }

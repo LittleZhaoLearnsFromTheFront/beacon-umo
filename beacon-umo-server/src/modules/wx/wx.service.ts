@@ -3,12 +3,11 @@ import { CheckSignatureQuery, isFollowEventMessage, Message } from "./wx.types";
 import axios from "axios";
 import { ConfigService } from "@nestjs/config";
 import { ENV } from "../config/config.enum";
-import { CacheService, RedisDir } from "../cache/cache.service";
-import { WX } from "./wx.enum";
+import { CacheService } from "../cache/cache.service";
 import { WXRepository } from "./wx.repository";
-import { Users } from "@/common/entitys/users.entity";
 import { SaveUser } from "./dto/wx.dto";
 import { generateTextMessage } from "@/utils";
+import { RedisDir, RedisKey } from "../cache/cache.enum";
 
 @Injectable()
 export class WXService {
@@ -47,7 +46,7 @@ export class WXService {
             access_token: string
         }
 
-        const cacheAccessToken = await this.cacheService.get<string>(RedisDir.WX, WX.Account_Access_Token)
+        const cacheAccessToken = await this.cacheService.get<string>(RedisDir.WX, RedisKey.WX_Account_Access_Token)
         if (cacheAccessToken) return cacheAccessToken
 
         const { data: { access_token, expires_in } } = await axios.get<ReturnType>('https://api.weixin.qq.com/cgi-bin/token', {
@@ -58,8 +57,7 @@ export class WXService {
             }
         })
 
-        if (cacheAccessToken === access_token) return cacheAccessToken
-        await this.cacheService.set(RedisDir.WX, WX.Account_Access_Token, access_token, expires_in)
+        await this.cacheService.set(RedisDir.WX, RedisKey.WX_Account_Access_Token, access_token, expires_in)
         return access_token
     }
 
@@ -69,7 +67,7 @@ export class WXService {
             access_token: string
         }
 
-        const cacheAccessToken = await this.cacheService.get<string>(RedisDir.WX, WX.Applet_Access_Token)
+        const cacheAccessToken = await this.cacheService.get<string>(RedisDir.WX, RedisKey.WX_Applet_Access_Token)
         if (cacheAccessToken) return cacheAccessToken
 
         const { data: { access_token, expires_in } } = await axios.get<ReturnType>('https://api.weixin.qq.com/cgi-bin/token', {
@@ -81,7 +79,7 @@ export class WXService {
         })
 
         if (cacheAccessToken === access_token) return cacheAccessToken
-        await this.cacheService.set(RedisDir.WX, WX.Applet_Access_Token, access_token, expires_in)
+        await this.cacheService.set(RedisDir.WX, RedisKey.WX_Applet_Access_Token, access_token, expires_in)
         return access_token
     }
 }

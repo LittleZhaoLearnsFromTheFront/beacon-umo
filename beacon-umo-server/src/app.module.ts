@@ -15,11 +15,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { secretOrKey } from './common/constant';
 import { JwtGuard } from './common/guard/jwt.guard';
 import { HomeModule } from './modules/home/home.module';
+import { DefaultModule } from './modules/default/default.module';
 @Module({
   imports: [
     AuthModule,
     UserModule,
     HomeModule,
+    DefaultModule,
 
     ConfigModule,
     DBModule,
@@ -29,7 +31,7 @@ import { HomeModule } from './modules/home/home.module';
       global: true,
       secret: secretOrKey,
       signOptions: {
-        expiresIn: '30d'
+        expiresIn: '7d'
       }
     })
   ],
@@ -66,7 +68,7 @@ import { HomeModule } from './modules/home/home.module';
     },
     {
       provide: APP_GUARD,
-      useClass: JwtGuard
+      useClass: JwtGuard,
     }
   ],
 })

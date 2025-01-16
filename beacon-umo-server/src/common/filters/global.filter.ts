@@ -33,6 +33,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     catch(exception: any, host: ArgumentsHost) {
         console.log(exception);
         const res = host.switchToHttp().getResponse<Response>();
-        res.status(HttpStatus.ERROR).send(Result.Error());
+        res.status(HttpStatus.BAD_REQUEST).send(Result.Error());
     }
 }

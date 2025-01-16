@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { LoginDto } from "./dto/login.dto";
+import { ClientLoginDto, ClientRegisterDto, LoginDto } from "./dto/index.dto";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
 import { ENV } from "../config/config.enum";
@@ -7,7 +7,8 @@ import { UserRepository } from "../user/user.repository";
 import { JwtService } from "@nestjs/jwt";
 import Result from "@/common/result/Result";
 import { UserOrigin } from "@/common/entitys/users.entity";
-
+import bcrypt from "bcrypt";
+import { validateEmail } from "@/utils";
 @Injectable()
 export class AuthService {
 
@@ -26,7 +27,7 @@ export class AuthService {
             openid: string;
         }
 
-        const { data: { session_key, errcode, openid }, status } = await axios.get<Result>('https://api.weixin.qq.com/sns/jscode2session', {
+        const { data: { errcode, openid } } = await axios.get<Result>('https://api.weixin.qq.com/sns/jscode2session', {
             params: {
                 appid: this.configService.get<string>(ENV.WX_APPLET_APPID),
                 secret: this.configService.get<string>(ENV.WX_APPLET_APPSECRET),
@@ -39,7 +40,7 @@ export class AuthService {
         if (errcode === 40029) throw new BadRequestException('code无效')
         if (errcode === 45011 || errcode === 40226 || errcode === -1) throw new BadRequestException('请求失败')
 
-        let user = await this.userRepository.findUser({ openid })
+        let user = await this.userRepository.findUser({ openid, origin: UserOrigin.Applet })
 
         if (!user) {
             const params = {
@@ -55,7 +56,33 @@ export class AuthService {
         })
     }
 
-    async validateUser(id: number, openid: string, origin: UserOrigin) {
-        return await this.userRepository.findUser({ id, openid, origin })
+    async clientLogin(body: ClientLoginDto) {
+        const { email, password } = body
+        const user = await this.userRepository.findUser({ email, origin: UserOrigin.Client })
+        if (!user) throw new BadRequestException('用户不存在')
+        const isMatch = bcrypt.compareSync(password, user.password)
+        if (!isMatch) throw new BadRequestException('密码错误')
+        const payload = { sub: user.id, email: user.email, origin: UserOrigin.Client }
+        return Result.Success({
+            token: this.jwtService.sign(payload)
+        })
+    }
+
+    async clientRegister(body: ClientRegisterDto) {
+        const { email, password } = body
+        if (!validateEmail(email)) throw new BadRequestException('邮箱格式不正确')
+        if (password.length < 6) throw new BadRequestException('密码长度至少为6位')
+        const user = await this.userRepository.findUser({ email, origin: UserOrigin.Client })
+        if (user) throw new BadRequestException('用户已存在')
+
+        const salt = await bcrypt.genSalt();
+        const hash = await bcrypt.hash(password, salt);
+        await this.userRepository.createUser({
+            email,
+            password: hash,
+            origin: UserOrigin.Client
+        })
+
+        return Result.Success('注册成功')
     }
 }

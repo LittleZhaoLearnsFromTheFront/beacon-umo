@@ -11,7 +11,7 @@ export class HomeService {
     constructor(
         @InjectRepository(Users) private readonly userRepository: Repository<Users>,
     ) { }
-    async getHomeConfig(jwtuser: UserType) {
+    async getHomeConfig(jwtuser: UserType<UserOrigin.Applet>) {
         const userInfo = await this.userRepository.findOne({
             relations: ["template"],
             where: {
