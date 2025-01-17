@@ -16,7 +16,7 @@ const index = () => {
         }
     })
 
-    return <View className="flex flex-col gap-6">
+    return <View className="flex flex-col gap-6 h-full">
         <Swiper
             indicatorDots={true}
             autoplay
@@ -31,7 +31,7 @@ const index = () => {
             }
         </Swiper>
 
-        <View className="flex flex-col gap-3 px-2 py-4 rounded shadow">
+        <View className="flex flex-col gap-3 px-2 py-4 rounded shadow mx-4">
             <Text className="text-lg font-medium">功能列表</Text>
             {data?.data.gridBar?.length ? <AtGrid
                 onClick={(t) => {
