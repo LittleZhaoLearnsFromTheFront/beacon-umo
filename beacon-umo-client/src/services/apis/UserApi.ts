@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* tslint:disable */
 /* eslint-disable */
 /**
@@ -24,6 +25,9 @@ import {
     InlineResponse200,
     InlineResponse200FromJSON,
     InlineResponse200ToJSON,
+    InlineResponse2001,
+    InlineResponse2001FromJSON,
+    InlineResponse2001ToJSON,
 } from '../models';
 
 export interface ApiClientLoginPostRequest {
@@ -94,6 +98,32 @@ export class UserApi extends runtime.BaseAPI {
      */
     async apiClientRegisterPost(inlineObject1?: InlineObject1): Promise<object> {
         const response = await this.apiClientRegisterPostRaw({ inlineObject1: inlineObject1 });
+        return await response.value();
+    }
+
+    /**
+     * 账号详情
+     */
+    async apiInfoGetRaw(): Promise<runtime.ApiResponse<InlineResponse2001>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/info`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse2001FromJSON(jsonValue));
+    }
+
+    /**
+     * 账号详情
+     */
+    async apiInfoGet(): Promise<InlineResponse2001> {
+        const response = await this.apiInfoGetRaw();
         return await response.value();
     }
 

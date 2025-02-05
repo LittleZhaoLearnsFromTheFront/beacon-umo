@@ -1,8 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule, ValidationError, ValidationPipe } from '@nestjs/common';
-import { ConfigModule } from './modules/config/config.module';
-import { DBModule } from './modules/db/db.module';
+import { ConfigModule } from './common_modules/config/config.module';
+import { DBModule } from './common_modules/db/db.module';
 import { WXModule } from './modules/wx/wx.module';
-import { CacheModule } from './modules/cache/cache.module';
+import { CacheModule } from './common_modules/cache/cache.module';
 import { XMLMiddleware } from './common/middlewares/xml.middleware';
 import { WXController } from './modules/wx/wx.controller';
 import { AuthModule } from './modules/auth/auth.module';
@@ -16,12 +16,14 @@ import { secretOrKey } from './common/constant';
 import { JwtGuard } from './common/guard/jwt.guard';
 import { HomeModule } from './modules/home/home.module';
 import { DefaultModule } from './modules/default/default.module';
+import { InfoModule } from './modules/info/info.module';
 @Module({
   imports: [
     AuthModule,
     UserModule,
     HomeModule,
     DefaultModule,
+    InfoModule,
 
     ConfigModule,
     DBModule,

@@ -1,4 +1,3 @@
-import { message, notification } from 'antd';
 import { memoizeWith } from 'ramda';
 import {
   loginPath,
@@ -9,6 +8,7 @@ import { myLocalStorage } from '@/lib';
 import { BaseAPI, Configuration, UserApi } from '@/services';
 import { history } from '@umijs/max';
 import { FetchOption } from 'typings';
+import { messageApi, notificationApi } from './Home';
 
 const isUploadSlice = (url: string) => url.includes('/api/attachment/slice');
 async function errorHandler(response: Response) {
@@ -23,21 +23,21 @@ async function errorHandler(response: Response) {
   const { url, status, statusText } = response;
   const defaultReason = `${status}(${statusText}) on ${url.match(/\/api.*/)}`;
   try {
-    const { error, detail, url: jumpUrl } = await response.clone().json();
+    const { msg, detail, url: jumpUrl } = await response.clone().json();
     if (Object.keys(detail ?? {}).length) {
       Object.entries(detail)
         .filter(([, v]) => typeof v === 'string')
         .map(([k, v]) =>
-          notification.error({
+          notificationApi.error({
             message: k,
             description: v as string,
             duration: 9,
           }),
         );
     } else {
-      message.error(
+      messageApi.error(
         <>
-          {error ?? defaultReason}
+          {msg ?? defaultReason}
           {jumpUrl && (
             <a href={jumpUrl} target='_blank' className='text-red-600'>
               （点击跳转）
@@ -48,7 +48,7 @@ async function errorHandler(response: Response) {
       );
     }
   } catch {
-    message.error(defaultReason);
+    messageApi.error(defaultReason);
   }
 }
 
@@ -66,7 +66,7 @@ export const myFetch = async (
   const hide =
     _isGet || isUploadSlice(url) || isLoading
       ? undefined
-      : message?.loading('Loading...');
+      : messageApi?.loading('Loading...');
   const promiseCache = _isGet ? cacheMap.get(url) : undefined;
   const headers = new Headers(option?.headers);
   const token = myLocalStorage.getItem(TOKEN_HEADER_NAME);
@@ -110,9 +110,12 @@ export const myFetch = async (
   if (!response.headers.get('Content-Type')?.includes('application/json')) {
     return response.clone();
   }
-  return (await response.clone().text())
-    ? response.clone()
-    : new Response('[]', response.clone());
+  if (response.ok) {
+    const jsonBody = await response.clone().json();
+    return new Response(JSON.stringify(jsonBody?.data || []), response.clone())
+  } else {
+    return response.clone();
+  }
 };
 
 const config = new Configuration({
@@ -132,7 +135,6 @@ const bindSelf = <T extends BaseAPI>(obj: T): T =>
     ),
   });
 
-const userService = bindSelf(new UserApi(config));
 
 export const getBlobUrl = async (res: Response) =>
   URL.createObjectURL(await res.blob());
@@ -142,7 +144,7 @@ export const downloadAjax = async (
   download = false,
 ) => {
   if (!url) {
-    message.error('下载地址为空');
+    messageApi.error('下载地址为空');
     return;
   }
   try {
@@ -153,7 +155,7 @@ export const downloadAjax = async (
       download,
     );
   } catch (e) {
-    message.error(String(e));
+    messageApi.error(String(e));
     console.error(e);
   }
 };
@@ -171,3 +173,5 @@ export const getStreamUrl = async (url: string) => {
     return '';
   }
 };
+
+export const userService = bindSelf(new UserApi(config));

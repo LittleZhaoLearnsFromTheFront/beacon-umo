@@ -2,12 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { CheckSignatureQuery, isFollowEventMessage, Message } from "./wx.types";
 import axios from "axios";
 import { ConfigService } from "@nestjs/config";
-import { ENV } from "../config/config.enum";
-import { CacheService } from "../cache/cache.service";
+import { ENV } from "../../common_modules/config/config.enum";
+import { CacheService } from "../../common_modules/cache/cache.service";
 import { WXRepository } from "./wx.repository";
 import { SaveUser } from "./dto/wx.dto";
 import { generateTextMessage } from "@/utils";
-import { RedisDir, RedisKey } from "../cache/cache.enum";
+import { RedisDir, RedisKey } from "../../common_modules/cache/cache.enum";
 
 @Injectable()
 export class WXService {

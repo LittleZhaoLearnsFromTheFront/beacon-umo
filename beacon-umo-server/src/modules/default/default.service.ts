@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import axios from "axios";
 import { WXService } from "../wx/wx.service";
-import { CacheService } from "../cache/cache.service";
-import { RedisDir, RedisKey } from "../cache/cache.enum";
+import { CacheService } from "../../common_modules/cache/cache.service";
+import { RedisDir, RedisKey } from "../../common_modules/cache/cache.enum";
 import Result from "@/common/result/Result";
 
 @Injectable()

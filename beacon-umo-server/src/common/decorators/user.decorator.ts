@@ -6,7 +6,7 @@ type DefaultUserType<T extends UserOrigin> = {
     origin: T,
 }
 
-export type UserType<T extends UserOrigin = UserOrigin.Applet> = T extends UserOrigin.Applet ? DefaultUserType<T> & { openid: string } : {
+export type UserType<T extends UserOrigin = UserOrigin.Applet> = T extends UserOrigin.Applet ? DefaultUserType<T> & { openid: string } : DefaultUserType<T> & {
     email: string
 }
 

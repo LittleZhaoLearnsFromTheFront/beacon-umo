@@ -2,12 +2,12 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { ClientLoginDto, ClientRegisterDto, LoginDto } from "./dto/index.dto";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
-import { ENV } from "../config/config.enum";
+import { ENV } from "../../common_modules/config/config.enum";
 import { UserRepository } from "../user/user.repository";
 import { JwtService } from "@nestjs/jwt";
 import Result from "@/common/result/Result";
 import { UserOrigin } from "@/common/entitys/users.entity";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 import { validateEmail } from "@/utils";
 @Injectable()
 export class AuthService {
@@ -60,7 +60,8 @@ export class AuthService {
         const { email, password } = body
         const user = await this.userRepository.findUser({ email, origin: UserOrigin.Client })
         if (!user) throw new BadRequestException('用户不存在')
-        const isMatch = bcrypt.compareSync(password, user.password)
+        //TODO 没有真正注册的用户
+        const isMatch = password == user.password || bcrypt.compareSync(password, user.password)
         if (!isMatch) throw new BadRequestException('密码错误')
         const payload = { sub: user.id, email: user.email, origin: UserOrigin.Client }
         return Result.Success({
@@ -78,6 +79,7 @@ export class AuthService {
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(password, salt);
         await this.userRepository.createUser({
+            username: email,
             email,
             password: hash,
             origin: UserOrigin.Client
