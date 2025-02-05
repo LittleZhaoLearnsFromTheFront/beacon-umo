@@ -19,14 +19,14 @@ export class AuthController {
 
     @Public()
     @HttpCode(HttpStatus.SUCCESS)
-    @Post('client-login')
+    @Post('client/login')
     async clientLogin(@Body() body: ClientLoginDto) {
         return await this.authService.clientLogin(body);
     }
 
     @Public()
     @HttpCode(HttpStatus.SUCCESS)
-    @Post('client-register')
+    @Post('client/register')
     async clientRegister(@Body() body: ClientRegisterDto) {
         return await this.authService.clientRegister(body);
     }
