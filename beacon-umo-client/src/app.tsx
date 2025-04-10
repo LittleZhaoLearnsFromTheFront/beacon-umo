@@ -6,6 +6,7 @@ import zhCN from 'antd/locale/zh_CN';
 import Home from './Home';
 import { siderWidth } from './constants';
 import { userService } from './servicesWrap';
+import Header from './components/Header';
 
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
@@ -24,7 +25,7 @@ export const layout = () => {
     collapsedButtonRender: false,
     disableMobile: true,
     menuRender: ({ }, dom: any) => <div className='fixed z-10'>{dom}</div>,
-    headerRender: () => <div></div>,
+    headerRender: () => <Header />,
     collapsed: false,
     contentStyle: {
       width: `calc(100vw - ${siderWidth})`,

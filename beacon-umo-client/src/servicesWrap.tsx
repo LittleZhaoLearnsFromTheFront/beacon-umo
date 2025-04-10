@@ -5,7 +5,7 @@ import {
 } from './constants';
 import { dropEmptySegements, isGet } from '@/utils';
 import { myLocalStorage } from '@/lib';
-import { BaseAPI, Configuration, UserApi } from '@/services';
+import { BaseAPI, Configuration, TemplateApi, UserApi } from '@/services';
 import { history } from '@umijs/max';
 import { FetchOption } from 'typings';
 import { messageApi, notificationApi } from './Home';
@@ -175,3 +175,4 @@ export const getStreamUrl = async (url: string) => {
 };
 
 export const userService = bindSelf(new UserApi(config));
+export const templateService = bindSelf(new TemplateApi(config));

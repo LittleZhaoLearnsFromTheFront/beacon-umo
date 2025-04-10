@@ -1,4 +1,4 @@
-import {  primaryColor } from '@/constants';
+import { headerHeight, primaryColor } from '@/constants';
 //更改antd主题颜色等
 export const antdThemeToken = {
   token: {
@@ -12,7 +12,7 @@ export const antdThemeToken = {
 export const antdProThemeToken = {
   bgLayout: 'white',
   header: {
-    heightLayoutHeader: 48,
+    heightLayoutHeader: headerHeight,
     colorBgHeader: primaryColor,
   },
   sider: {

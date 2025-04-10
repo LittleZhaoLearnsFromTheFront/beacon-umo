@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import {
-    loginPath
+    loginPath,
+    templatesPath,
+    usersPath
 } from './constants';
 import { concat } from 'ramda';
 
@@ -36,6 +38,17 @@ export const routes: Route[] = [
         menuRender: false,
         headerRender: false,
         hideInMenu: true,
-
     },
+    {
+        name: '模版列表',
+        path: templatesPath,
+        component: routerPath2filePath(templatesPath),
+        icon: 'AppstoreOutlined'
+    },
+    {
+        name: '用户管理',
+        path: usersPath,
+        component: routerPath2filePath(usersPath),
+        icon: 'UserOutlined'
+    }
 ];

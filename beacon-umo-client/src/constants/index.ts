@@ -1,4 +1,6 @@
 export const loginPath = '/login'
+export const templatesPath = '/templates'
+export const usersPath = '/users'
 
 export const TOKEN_HEADER_NAME = 'x-jwt';
 
