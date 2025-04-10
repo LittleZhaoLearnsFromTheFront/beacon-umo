@@ -28,6 +28,7 @@ const filePath = ['.env', isDev ? '.env.development' : '.env.production']
                 [ENV.WX_ACCOUNT_APPSECRET]: Joi.string().required(),
                 [ENV.WX_APPLET_APPID]: Joi.string().required(),
                 [ENV.WX_APPLET_APPSECRET]: Joi.string().required(),
+                [ENV.STATIC_URL]: Joi.string().required(),
             })
         })
     ],

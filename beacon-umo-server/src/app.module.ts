@@ -14,16 +14,16 @@ import { UserModule } from './modules/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { secretOrKey } from './common/constant';
 import { JwtGuard } from './common/guard/jwt.guard';
-import { HomeModule } from './modules/home/home.module';
 import { DefaultModule } from './modules/default/default.module';
-import { InfoModule } from './modules/info/info.module';
+import { ClientModule } from './modules/client/client.module';
+import { AppletModule } from './modules/applet/applet.module';
 @Module({
   imports: [
     AuthModule,
     UserModule,
-    HomeModule,
     DefaultModule,
-    InfoModule,
+    ClientModule,
+    AppletModule,
 
     ConfigModule,
     DBModule,

@@ -18,7 +18,7 @@ import { CacheService } from "./cache.service";
                 })
                 return {
                     store,
-                    
+
                 }
             },
             inject: [ConfigService]

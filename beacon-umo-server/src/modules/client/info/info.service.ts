@@ -1,7 +1,7 @@
 import { UserType } from "@/common/decorators/user.decorator";
 import { UserOrigin } from "@/common/entitys/users.entity";
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { UserRepository } from "../user/user.repository";
+import { UserRepository } from "../../user/user.repository";
 import Result from "@/common/result/Result";
 
 @Injectable()

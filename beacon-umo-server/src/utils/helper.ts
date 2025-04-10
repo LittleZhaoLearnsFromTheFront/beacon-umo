@@ -2,6 +2,8 @@ import { Config } from "@/config";
 import { IAnyObject } from "@/types";
 import * as dayjs from "dayjs";
 
+
+
 export const sqlWhere = (where: IAnyObject) => {
     const newWhere: IAnyObject = {}
     Object.entries(where).forEach(([key, value]) => {
@@ -22,9 +24,9 @@ export const parseError = (error: string) => {
     return error.split('^')
 }
 
-export const formatStaticUrl = (url: string) => {
+export const formatStaticUrl = (staticUrl: string, url: string) => {
     if (!url) return ''
-    return "http://localhost:3000" + Config.prefix + Config.upload.file_prefix + url
+    return staticUrl + Config.prefix + Config.upload.file_prefix + url
 }
 
 export const validateEmail = (email: string) => {

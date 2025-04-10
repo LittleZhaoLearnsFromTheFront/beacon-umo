@@ -3,7 +3,6 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserType } from "@/common/decorators/user.decorator";
 import { Repository } from "typeorm";
-import { formatStaticUrl } from "@/utils";
 import Result from "@/common/result/Result";
 
 @Injectable()
@@ -26,11 +25,11 @@ export class HomeService {
         return Result.Success({
             swiper: config.swiper?.map(t => ({
                 ...t,
-                image: formatStaticUrl(t.image)
+                image: t.image
             })),
             gridBar: config.gridBar?.map(t => ({
                 ...t,
-                image: formatStaticUrl(t.image)
+                image: t.image
             }))
         })
     }
