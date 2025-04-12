@@ -37,3 +37,6 @@ export class createTemplateDto {
     config: TemplateConfig;
 
 }
+
+export class updateTemplateDto extends createTemplateDto {
+}

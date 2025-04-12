@@ -1,7 +1,7 @@
 import { UserType } from "@/common/decorators/user.decorator";
 import { UserOrigin, Users } from "@/common/entitys/users.entity";
-import { Injectable } from "@nestjs/common";
-import { createTemplateDto, getTemplateDto } from "./template.dto";
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { createTemplateDto, getTemplateDto, updateTemplateDto } from "./template.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Templates } from "@/common/entitys/templates.entity";
 import { Repository } from "typeorm";
@@ -38,5 +38,33 @@ export class TemplateService {
         template.client_user = user as Users;
         await this.templateRepository.save(template);
         return Result.Success('创建成功');
+    }
+
+    async updateTemplate(id: string, body: updateTemplateDto, user: UserType<UserOrigin.Client>) {
+        if (!id) {
+            throw new BadRequestException('id不能为空');
+        }
+        const { title, config } = body;
+        const template = await this.templateRepository.findOne({
+            where: {
+                id: Number(id),
+                client_user: user
+            }
+        })
+        if (!template) {
+            throw new BadRequestException('模板不存在');
+        }
+        template.title = title;
+        template.config = config;
+        await this.templateRepository.save(template);
+        return Result.Success('更新成功');
+    }
+
+    async deleteTemplate(id: string, user: UserType<UserOrigin.Client>) {
+        if (!id) {
+            throw new BadRequestException('id不能为空');
+        }
+        await this.templateRepository.delete(Number(id));
+        return Result.Success('删除成功');
     }
 }
